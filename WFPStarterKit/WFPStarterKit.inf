@@ -9,10 +9,10 @@ ClassGuid= {4D36E974-E325-11CE-BFC1-08002BE10318}; use MS defined NetService
 Provider=%ManufacturerName%
 CatalogFile=WFPStarterKit.cat
 DriverVer= ; TODO: set DriverVer in stampinf property pages
-PnpLockdown=1
+;PnpLockdown=1
 
 [DestinationDirs]
-DefaultDestDir = 13
+DefaultDestDir = 12
 
 ; ================= Class section =====================
 
@@ -55,7 +55,7 @@ DisplayName    = %WFPStarterKit.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
 StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
-ServiceBinary  = %13%\WFPStarterKit.sys
+ServiceBinary  = %12%\WFPStarterKit.sys
 LoadOrderGroup = Extended Base
 
 ;

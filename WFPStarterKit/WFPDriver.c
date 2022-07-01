@@ -192,7 +192,7 @@ NTSTATUS register_example_callout(DEVICE_OBJECT * wdm_device)
 	// Setup a FWPM_CALLOUT structure to store/track the state associated with the FWPS_CALLOUT
 	m_callout.calloutKey = EXAMPLE_CALLOUT_GUID;
 	m_callout.displayData = display_data;
-	m_callout.applicableLayer = FWPM_LAYER_OUTBOUND_TRANSPORT_V4;
+	m_callout.applicableLayer = FWPM_LAYER_EGRESS_VSWITCH_ETHERNET;
 	m_callout.flags = 0;
 	status = FwpmCalloutAdd(filter_engine_handle, &m_callout, NULL, NULL);
 	if (!NT_SUCCESS(status)){
@@ -243,7 +243,7 @@ NTSTATUS register_example_filter()
 	filter.weight.type = FWP_UINT8;
 	filter.weight.uint8 = 0xf;		// The weight of this filter within its sublayer
 	filter.numFilterConditions = 0;	// If you specify 0, this filter invokes its callout for all traffic in its layer
-	filter.layerKey = FWPM_LAYER_OUTBOUND_TRANSPORT_V4;	// This layer must match the layer that ExampleCallout is registered to
+	filter.layerKey = FWPM_LAYER_EGRESS_VSWITCH_ETHERNET;	// This layer must match the layer that ExampleCallout is registered to
 	filter.action.calloutKey = EXAMPLE_CALLOUT_GUID;
 	status = FwpmFilterAdd(filter_engine_handle, &filter, NULL, &(example_filter_id));
 	if (status != STATUS_SUCCESS){

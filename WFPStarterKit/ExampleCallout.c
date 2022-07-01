@@ -25,10 +25,10 @@ void example_classify(
 	UINT64 flowContext,
 	FWPS_CLASSIFY_OUT * classifyOut)
 {
-	UINT32 local_address = inFixedValues->incomingValue[FWPS_FIELD_OUTBOUND_TRANSPORT_V4_IP_LOCAL_ADDRESS].value.uint32;
-	UINT32 remote_address = inFixedValues->incomingValue[FWPS_FIELD_OUTBOUND_TRANSPORT_V4_IP_REMOTE_ADDRESS].value.uint32;
-	UINT16 local_port = inFixedValues->incomingValue[FWPS_FIELD_OUTBOUND_TRANSPORT_V4_IP_LOCAL_PORT].value.uint16;
-	UINT16 remote_port = inFixedValues->incomingValue[FWPS_FIELD_OUTBOUND_TRANSPORT_V4_IP_REMOTE_PORT].value.uint16;
+	UINT32 local_address = inFixedValues->incomingValue[FWPS_FIELD_EGRESS_VSWITCH_TRANSPORT_V4_IP_SOURCE_ADDRESS].value.uint32;
+	UINT32 remote_address = inFixedValues->incomingValue[FWPS_FIELD_EGRESS_VSWITCH_TRANSPORT_V4_IP_DESTINATION_ADDRESS].value.uint32;
+	UINT16 local_port = inFixedValues->incomingValue[FWPS_FIELD_EGRESS_VSWITCH_TRANSPORT_V4_IP_SOURCE_PORT].value.uint16;
+	UINT16 remote_port = inFixedValues->incomingValue[FWPS_FIELD_EGRESS_VSWITCH_TRANSPORT_V4_IP_DESTINATION_PORT].value.uint16;
 
 	UNREFERENCED_PARAMETER(inMetaValues);
 	UNREFERENCED_PARAMETER(layerData);
@@ -36,15 +36,26 @@ void example_classify(
 	UNREFERENCED_PARAMETER(flowContext);
 	UNREFERENCED_PARAMETER(filter);
 
+
+    // sdf.org 205.166.94.16
+    if (remote_address == 0xCDA65E10) {
+            DbgPrint("hit sdf.org host order");
+    }
+    if (remote_address == 0x105EA6CD) {
+            DbgPrint("hit sdf.org net order");
+    }
+
+    /*
 	// If the packet is destined for remote port 1234, block the packet
 	if (remote_port == 1234){
 		DbgPrint("Blocking Packet to port 1234");
 		classifyOut->actionType = FWP_ACTION_BLOCK;
 		return;
-	}
+	}*/
+
 	// Otherwise, print its TCP 4-tuple
 	else{
-		DbgPrint("Example Classify found a packet: %d.%d.%d.%d:%hu --> %d.%d.%d.%d:%hu",
+		DbgPrint("Example Classify found a packet: %d.%d.%d.%d:%hu --> %d.%d.%d.%d:%hu\n",
 			FORMAT_ADDR(local_address), local_port, FORMAT_ADDR(remote_address), remote_port);
 	}
 
